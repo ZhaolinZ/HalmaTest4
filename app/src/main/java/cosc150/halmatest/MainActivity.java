@@ -1,5 +1,6 @@
 package cosc150.halmatest;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -74,17 +75,20 @@ public class MainActivity extends AppCompatActivity {
         {
             if(i==0 || i ==1 || i == 2 || i ==6 || i==7 || i==12)
             {
-                gameButtons[i].setText("R");
+                gameButtons[i].setBackgroundResource(R.drawable.red);
+                //gameButtons[i].setText("R");
                 gameButtons[i].setTag("Red");
             }
             else if(i==23 || i==28 || i==29 || i==33 || i==34 || i==35)
             {
-                gameButtons[i].setText("B");
+                gameButtons[i].setBackgroundResource(R.drawable.black);
+                //gameButtons[i].setText("B");
                 gameButtons[i].setTag("Black");
             }
             else
             {
-                gameButtons[i].setText(" ");
+                gameButtons[i].setBackgroundResource(R.drawable.empty);
+                //gameButtons[i].setText(" ");
                 gameButtons[i].setTag("Blank");
             }
             gameButtons[i].setOnClickListener(new ButtonClickListener(i));
@@ -108,18 +112,32 @@ public class MainActivity extends AppCompatActivity {
 
     private void setMove(char color, int startLoc, int endLoc)
     {
+        //set drawable things
+        Drawable cDrawable = null;
+        if(color == 'r')
+        {
+            cDrawable = getDrawable(R.drawable.red);
+        }
+        if(color == 'b')
+        {
+            cDrawable = getDrawable(R.drawable.black);
+        }
+
+        //
         theBoard.setMove(color, startLoc, endLoc);
 
         gameButtons[startLoc].setText(" ");
         gameButtons[startLoc].setTag("Blank");
         if(color == 'r')
         {
-            gameButtons[endLoc].setText("R");
+            gameButtons[endLoc].setBackgroundResource(R.drawable.red);
+            //gameButtons[endLoc].setText("R");
             gameButtons[endLoc].setTag("Red");
         }
         if(color == 'b')
         {
-            gameButtons[endLoc].setText("B");
+            gameButtons[endLoc].setBackgroundResource(R.drawable.black);
+            //gameButtons[endLoc].setText("B");
             gameButtons[endLoc].setTag("Black");
         }
         pieceSelected = false;
@@ -171,11 +189,13 @@ public class MainActivity extends AppCompatActivity {
                 {
                     if(redTurn && gameButtons[location].getTag() == "Red")
                     {
+                        gameButtons[location].setBackgroundResource(R.drawable.redselect);
                         start = location;
                         pieceSelected = true;
                     }
                     if(!redTurn && gameButtons[location].getTag() == "Black")
                     {
+                        gameButtons[location].setBackgroundResource(R.drawable.blackselect);
                         start = location;
                         pieceSelected = true;
                     }
@@ -183,11 +203,14 @@ public class MainActivity extends AppCompatActivity {
                 else if(pieceSelected)
                 {
                     if(redTurn && gameButtons[start].getTag() == "Red")
-                {
-                    setMove('r', start, location);
-                    moveResult();
-                }
-                    if(!redTurn && gameButtons[start].getTag() == "Black") {
+                    {
+                        gameButtons[start].setBackgroundResource(R.drawable.empty);
+                        setMove('r', start, location);
+                        moveResult();
+                    }
+                    if(!redTurn && gameButtons[start].getTag() == "Black")
+                    {
+                        gameButtons[start].setBackgroundResource(R.drawable.empty);
                         setMove('b', start, location);
                         moveResult();
                     }
